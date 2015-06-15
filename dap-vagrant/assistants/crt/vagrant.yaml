@@ -1,0 +1,33 @@
+fullname: Vagrant assistant
+description: Create a vagrant box with libvirt
+
+dependencies:
+  - rpm: [vagrant, vagrant-libvirt]
+
+dependencies_domain:
+  - rpm: [vagrant-libvirt-doc]
+
+dependencies_lxc:
+  - rpm: [vagrant-lxc]
+
+args:
+  domain:
+    flags:
+    - --domain
+    help:
+      'This will automatically start domain'
+    action:
+      'store_true'
+  lxc:
+    flags:
+    - --lxc
+    help:
+      'This will use lxc instead of Docker'
+    action:
+      'store_true'
+run:
+- log_i: "Copy rule so that libvirt domene is automatically started"
+- if defined $(domain):
+  - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '{%version}')
+  - cl: cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt-rules /usr/share/polkit-1/rules.d/
+- cl_i: vagrant up
