@@ -1,4 +1,4 @@
-fullname: Vagrant
+fullname: general
 description: Create a general vagrant box
 
 dependencies:

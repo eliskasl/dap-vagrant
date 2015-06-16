@@ -1,4 +1,4 @@
-fullname: Vagrant-libvirt
+fullname: libvirt
 description: Create a vagrant box with libvirt
 
 dependencies:

@@ -1,4 +1,4 @@
-fullname: Vagrant
+fullname: lxc
 description: Create a vagrant box with lxc
 
 dependencies:
