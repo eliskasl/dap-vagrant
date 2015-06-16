@@ -1,0 +1,26 @@
+fullname: Vagrant
+description: Create a vagrant box with lxc
+
+dependencies:
+- use: super.dependencies
+- rpm: ['vagrant-lxc']
+
+args:
+  name:
+    use: common_args
+
+files:
+  lxcsources: &lxcsources
+    source: .
+run:
+- setup_project_dir:
+    from: $name
+    on_existing: fail
+    create_topdir: normalized
+    topdir_normalized_var: basename
+- log_i: 'Creating Vagrant-lxc project $basename in $contdir ...'
+- cl: cd "$contdir"
+- cl_i: cp -r *lxcsources "$basename"
+- cl: cd "$basename"
+- cl_i: vagrant init
+- cl_i: vagrant up

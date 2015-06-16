@@ -1,0 +1,26 @@
+fullname: Vagrant
+description: Create a general vagrant box
+
+dependencies:
+- use: super.dependencies
+
+args:
+  name:
+    use: common_args
+
+
+files:
+  generalsources: &generalsources
+    source: .
+run:
+- setup_project_dir:
+    from: $name
+    on_existing: fail
+    create_topdir: normalized
+    topdir_normalized_var: basename
+- log_i: 'Creating general Vagrant project $basename in $contdir ...'
+- cl: cd "$contdir"
+- cl_i: cp -r *generalsources "$basename"
+- cl: cd "$basename"
+- cl_i: vagrant init
+- cl_i: vagrant up
