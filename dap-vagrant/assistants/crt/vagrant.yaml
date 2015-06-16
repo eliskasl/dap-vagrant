@@ -1,4 +1,4 @@
-fullname: Vagrant assistant
+fullname: Vagrant
 description: Create a vagrant box with libvirt
 
 dependencies:
@@ -11,23 +11,41 @@ dependencies_lxc:
   - rpm: [vagrant-lxc]
 
 args:
+  name:
+    use: common_args
+
   domain:
     flags:
+    - -d
     - --domain
-    help:
-      'This will automatically start domain'
-    action:
-      'store_true'
+    help: 'This will automatically start domain'
+    action: 'store_true'
+
   lxc:
     flags:
+    - -l
     - --lxc
-    help:
-      'This will use lxc instead of Docker'
-    action:
-      'store_true'
+    help: 'This will use lxc instead of Docker'
+    action: 'store_true'
+
+files:
+  vagrant: &vagrant
+    source: Vagrantfile
 run:
-- log_i: "Copy rule so that libvirt domene is automatically started"
-- if defined $(domain):
-  - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '{%version}')
-  - cl: cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt-rules /usr/share/polkit-1/rules.d/
-- cl_i: vagrant up
+- $dirname~: $(dirname "$name")
+- $basename~: $(basename "$name")
+- if not $(ls "$name"):
+  - log_i: 'Copying vagrant source tree to project destination'
+  - cl: mkdir -p "$name"
+  - cl_i: cp *vagrant $name
+  - dda_c: "$name"
+  - cl: cd "$name"
+  - log_i: 'Vagrant project is located here $name'
+  - if defined $domain:
+    - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '%{version}')
+    - log_i: "Copy 10-vagrant-libvirt-rules file so that libvirt domain is automatically started"
+    - cl: pkexec cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt.rules /usr/share/polkit-1/rules.d/
+  - cl_i: vagrant init
+  - cl_i: vagrant up
+- else:
+  - log_i: 'Project already exists'
