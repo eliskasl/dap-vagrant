@@ -1,5 +1,5 @@
-fullname: general
-description: Create a general vagrant box
+fullname: Virtualbox provider
+description: Create a Vagrantfile with Virtualbox as a default provider
 
 dependencies:
 - use: super.dependencies

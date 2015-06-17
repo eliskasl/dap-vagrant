@@ -1,5 +1,5 @@
-fullname: lxc
-description: Create a vagrant box with lxc
+fullname: lxc provider
+description: Create a Vagrantfile with lxc as a default provider
 
 dependencies:
 - use: super.dependencies

@@ -1,5 +1,5 @@
-fullname: libvirt
-description: Create a vagrant box with libvirt
+fullname: libvirt provider (recommended)
+description: Create a Vagrantfile with libvirt as a default provider
 
 dependencies:
 - use: super.dependencies
