@@ -1,0 +1,24 @@
+fullname: docker provider
+description: Create a Vagrantfile with docker as a default provider
+
+dependencies:
+- use: super.dependencies
+- rpm: ['docker-io']
+
+args:
+  name:
+    use: common_args
+
+files:
+  generalsources: &generalsources
+    source: .
+run:
+- setup_project_dir:
+    from: $name
+    on_existing: fail
+    create_topdir: normalized
+    topdir_normalized_var: basename
+- log_i: 'Creating Vagrantfile with docker as a default provider in $basename...'
+- cl: cd "$contdir"
+- cl_i: cp -r *generalsources "$basename"
+- cl: cd "$basename"
