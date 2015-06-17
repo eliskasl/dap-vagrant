@@ -12,11 +12,11 @@ args:
   name:
     use: common_args
 
-  domain:
+  with_polkit_rules:
     flags:
-    - -d
-    - --domain
-    help: 'This automatically starts domain'
+    - -p
+    - --include-polkit-rules
+    help: 'This includes polkit policies to start libvirt domains without requiring password'
     action: 'store_true'
 
 files:
@@ -32,7 +32,7 @@ run:
 - cl: cd "$contdir"
 - cl_i: cp -r *libvirtsources "$basename"
 - cl: cd "$basename"
-- if defined $domain:
+- if defined $include_polkit_rules:
   - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '%{version}')
   - log_i: "Copy 10-vagrant-libvirt-rules file so that libvirt domain is automatically started"
   - cl: pkexec cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt.rules /usr/share/polkit-1/rules.d/
