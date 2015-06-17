@@ -1,20 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Instead of typing '--provider=lxc' all the time
+ENV['VAGRANT_DEFAULT_PROVIDER'] = "lxc"
+
 Vagrant.configure(2) do |config|
- 
-  # Název boxu; box musí být lokálně přidán nebo dostupný na Atlasu.
-  config.vm.box = humaton/fedora-21-cloud
 
-  # V opačném případě je vhodně nastavit URL na které se box nachází.
-  # Díky tomu jej bude umět Vagrant automaticky stáhnout.
-  # config.vm.box_url = 
- 
-  # Přepošleme port z virtuálního stroje na hostující
-  config.vm.network forwarded_port, guest: 3001, host: 3000
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  config.vm.box = "fgrehm/trusty64-lxc"
 
-  # Nasdílíme svoji složku s daty na /vagrant_data ve virtuálním stroji
-  config.vm.synced_folder ../data, /vagrant_data
-
-  # Jednoduchý provisioning, který nainstaluje Ruby on Rails
-  config.vm.provision shell, inline: <<-SHELL
-     sudo yum install -y rubygem-rails
-  SHELL
+  config.vm.provider "lxc" do |lxc|
+  #  # Sets the name of the container
+  #  lxc.container_name = 'mysql'
+  #
+  #  # Sets the backing store
+  #  lxc.backingstore = "lvm"
+  #
+  #  # Sets cgroups parameters
+  #  lxc.customize 'cgroup.memory.limit_in_bytes', '1024M'
+  #
+  #  lxc provider documentation can be found at https://github.com/fgrehm/vagrant-lxc
+  end
 end
