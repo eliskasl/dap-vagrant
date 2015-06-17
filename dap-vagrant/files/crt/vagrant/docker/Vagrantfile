@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Instead of typing '--provider=docker' all the time
+ENV['VAGRANT_DEFAULT_PROVIDER'] = "docker"
+
+Vagrant.configure(2) do |config|
+
+  config.vm.provider "docker" do |d|
+  #  # Use a specific image from a Docker registry
+  #	 d.image = "foo/bar"
+  #
+  #  # Build container from a Dockerfile in this repository
+  #  d.build_dir = "."
+  #
+  #  # Expose ports
+  #  d.ports = ["80:80"]
+  #
+  #  docker provider documentation can be found at http://docs.vagrantup.com/v2/docker/index.html
+  end
+end
