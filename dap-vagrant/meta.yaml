@@ -3,7 +3,7 @@ version: 0.0.1
 license: GPLv2+
 summary: Vagrant assistant
 homepage: https://github.com/phracek/dap-vagrant
-authors: [Petr Hracek <phracek@redhat.com>]
+authors: [Petr Hracek <phracek@redhat.com>, Josef Strzibny <strzibny@strzibny.name>]
 supported_platforms: [fedora]
 description: |
     This package prepare your environment for Vagrant.
