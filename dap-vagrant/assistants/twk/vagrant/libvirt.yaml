@@ -9,30 +9,30 @@ dependencies_domain:
 - rpm: ['vagrant-libvirt-doc']
 
 args:
-  name:
+  path:
     use: common_args
 
-  with_polkit_rules:
+  include_polkit_rules:
     flags:
-    - -p
+    - -i
     - --include-polkit-rules
-    help: 'This includes polkit policies to start libvirt domains without requiring password'
+    help: 'Include polkit policies to start libvirt domains without requiring a password'
     action: 'store_true'
 
 files:
   libvirtsources: &libvirtsources
     source: Vagrantfile
+
 run:
-- setup_project_dir:
-    from: $name
-    on_existing: fail
-    create_topdir: normalized
-    topdir_normalized_var: basename
-- log_i: 'Creating Vagrantfile with libvirt as a default provider in $basename...'
-- cl: cd "$contdir"
-- cl_i: cp -r *libvirtsources "$basename"
-- cl: cd "$basename"
+- $pwd~: $(pwd)
+- if $(test -f Vagrantfile):
+  - log_e: Vagrantfile already exists in $pwd, exiting!
+
+- log_i: 'Creating Vagrantfile with libvirt as a default provider in $path...'
+- cl_i: cp -r *libvirtsources "$path"
+- cl: cd "$path"
+
 - if defined $include_polkit_rules:
   - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '%{version}')
-  - log_i: "Copy 10-vagrant-libvirt-rules file so that libvirt domain is automatically started"
+  - log_i: "Copying polkit rules so that vagrant group can start libvirt domains."
   - cl: pkexec cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt.rules /usr/share/polkit-1/rules.d/
