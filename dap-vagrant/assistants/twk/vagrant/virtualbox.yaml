@@ -18,9 +18,7 @@ run:
     on_existing: fail
     create_topdir: normalized
     topdir_normalized_var: basename
-- log_i: 'Creating general Vagrant project $basename in $contdir ...'
+- log_i: 'Creating Vagrantfile with VirtualBox as a default provider in $basename...'
 - cl: cd "$contdir"
 - cl_i: cp -r *generalsources "$basename"
 - cl: cd "$basename"
-- cl_i: vagrant init
-- cl_i: vagrant up

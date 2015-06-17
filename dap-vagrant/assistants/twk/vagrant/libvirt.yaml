@@ -28,7 +28,7 @@ run:
     on_existing: fail
     create_topdir: normalized
     topdir_normalized_var: basename
-- log_i: 'Creating Vagrant-libvirt project $basename in $contdir ...'
+- log_i: 'Creating Vagrantfile with libvirt as a default provider in $basename...'
 - cl: cd "$contdir"
 - cl_i: cp -r *libvirtsources "$basename"
 - cl: cd "$basename"
@@ -36,5 +36,3 @@ run:
   - $vagrant_version~: $(rpm -q vagrant-libvirt --qf '%{version}')
   - log_i: "Copy 10-vagrant-libvirt-rules file so that libvirt domain is automatically started"
   - cl: pkexec cp /usr/share/vagrant/gems/doc/vagrant-libvirt-$vagrant_version/polkit/10-vagrant-libvirt.rules /usr/share/polkit-1/rules.d/
-- cl_i: vagrant init
-- cl_i: vagrant up
