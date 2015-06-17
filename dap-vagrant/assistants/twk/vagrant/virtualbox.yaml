@@ -20,5 +20,5 @@ run:
     topdir_normalized_var: basename
 - log_i: 'Creating Vagrantfile with VirtualBox as a default provider in $basename...'
 - cl: cd "$contdir"
-- cl_i: cp -r *generalsources "$basename"
+- cl_i: cp -r *virtualboxsources "$basename"
 - cl: cd "$basename"
