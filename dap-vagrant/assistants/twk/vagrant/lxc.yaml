@@ -11,7 +11,7 @@ args:
 
 files:
   lxcsources: &lxcsources
-    source: .
+    source: Vagrantfile
 run:
 - setup_project_dir:
     from: $name

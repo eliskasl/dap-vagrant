@@ -21,7 +21,7 @@ args:
 
 files:
   libvirtsources: &libvirtsources
-    source: .
+    source: Vagrantfile
 run:
 - setup_project_dir:
     from: $name
