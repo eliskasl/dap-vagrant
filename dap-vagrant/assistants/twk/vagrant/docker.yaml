@@ -6,19 +6,24 @@ dependencies:
 - rpm: ['docker-io']
 
 args:
-  name:
+  path:
     use: common_args
 
 files:
-  generalsources: &generalsources
+  dockersources: &dockerssources
     source: Vagrantfile
+
+pre_run:
+- if $path:
+  - cl: cd $path
+- if $(ls .devassistant):
+  - dda_r: .
+
 run:
-- setup_project_dir:
-    from: $name
-    on_existing: fail
-    create_topdir: normalized
-    topdir_normalized_var: basename
-- log_i: 'Creating Vagrantfile with docker as a default provider in $basename...'
-- cl: cd "$contdir"
-- cl_i: cp -r *dockersources "$basename"
-- cl: cd "$basename"
+- $pwd~: $(pwd)
+- if $(test -f Vagrantfile):
+  - log_e: Vagrantfile already exists in $pwd, exiting!
+
+- log_i: 'Creating Vagrantfile with docker as a default provider in $path...'
+- cl_i: cp -r *dockersources "$path"
+- cl: cd "$path"
